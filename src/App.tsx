@@ -7,7 +7,7 @@ export default function App() {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession()
+        const { error } = await supabase.auth.getSession()
         if (error) {
           setStatus('❌ Fehler: ' + error.message)
         } else {
