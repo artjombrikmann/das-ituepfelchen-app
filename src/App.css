@@ -1,0 +1,19 @@
+import { useEffect, useState } from 'react'
+import { supabase } from './lib/supabase'
+
+export default function App() {
+  const [connected, setConnected] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(() => {
+      setConnected(true)
+    })
+  }, [])
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h1>Das i-Tüpfelchen App</h1>
+      <p>Supabase Status: {connected ? '✅ Verbunden!' : '⏳ Verbindung...'}</p>
+    </div>
+  )
+}
