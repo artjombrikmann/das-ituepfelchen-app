@@ -10,6 +10,7 @@ export default function ProfilePage({ session, onLogout }: ProfilePageProps) {
   const [profile, setProfile] = useState<any>(null)
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
+  const [whatsappOptedIn, setWhatsappOptedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
@@ -28,20 +29,19 @@ export default function ProfilePage({ session, onLogout }: ProfilePageProps) {
       setProfile(data)
       setName(data.name || '')
       setBio(data.bio || '')
+      setWhatsappOptedIn(data.whatsapp_opted_in || false)
     }
     setLoading(false)
   }
 
   const handleSave = async () => {
     setSaving(true)
-    const { error } = await supabase
+    await supabase
       .from('profiles')
-      .update({ name, bio, updated_at: new Date() })
+      .update({ name, bio, whatsapp_opted_in: whatsappOptedIn, updated_at: new Date() })
       .eq('id', session.user.id)
 
-    if (!error) {
-      setProfile({ ...profile, name, bio })
-    }
+    setProfile({ ...profile, name, bio, whatsapp_opted_in: whatsappOptedIn })
     setSaving(false)
   }
 
@@ -66,6 +66,19 @@ export default function ProfilePage({ session, onLogout }: ProfilePageProps) {
           <div style={{ marginBottom: '32px' }}>
             <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#1b1c1b', marginBottom: '10px', textTransform: 'uppercase' }}>Bio</label>
             <textarea value={bio} onChange={(e) => setBio(e.target.value)} style={{ width: '100%', padding: '12px 14px', border: '1px solid #d4d2cf', borderRadius: '10px', fontSize: '14px', fontFamily: 'Plus Jakarta Sans', boxSizing: 'border-box', background: '#fbf9f7', minHeight: '100px' }} />
+          </div>
+
+          <div style={{ marginBottom: '32px', padding: '16px', background: '#fbf9f7', borderRadius: '10px', border: '1px solid #d4d2cf' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', fontSize: '14px', color: '#1b1c1b', fontWeight: '500' }}>
+              <input
+                type="checkbox"
+                checked={whatsappOptedIn}
+                onChange={(e) => setWhatsappOptedIn(e.target.checked)}
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              />
+              <span>💚 WhatsApp Benachrichtigungen aktivieren</span>
+            </label>
+            <p style={{ fontSize: '12px', color: '#4c454b', margin: '8px 0 0 30px' }}>Erhalte Updates über neue Kurse, Stoffe & Community Highlights</p>
           </div>
 
           <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
