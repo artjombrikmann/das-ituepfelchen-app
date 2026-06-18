@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Feed from './pages/Feed'
 import Shop from './pages/Shop'
+import Courses from './pages/Courses'
 import ProfilePage from './pages/Profile'
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={() => setPage('feed')} style={{ background: page === 'feed' ? '#705671' : 'transparent', color: page === 'feed' ? 'white' : '#4c454b', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>Feed</button>
             <button onClick={() => setPage('shop')} style={{ background: page === 'shop' ? '#705671' : 'transparent', color: page === 'shop' ? 'white' : '#4c454b', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>Shop</button>
+            <button onClick={() => setPage('courses')} style={{ background: page === 'courses' ? '#705671' : 'transparent', color: page === 'courses' ? 'white' : '#4c454b', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>Kurse</button>
             <button onClick={() => setPage('profile')} style={{ background: page === 'profile' ? '#705671' : 'transparent', color: page === 'profile' ? 'white' : '#4c454b', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontSize: '14px' }}>Profil</button>
           </div>
         </div>
@@ -58,6 +60,7 @@ export default function App() {
 
       {page === 'feed' && <Feed session={session} />}
       {page === 'shop' && <Shop />}
+      {page === 'courses' && <Courses session={session} />}
       {page === 'profile' && <ProfilePage session={session} onLogout={handleLogout} />}
     </div>
   )
