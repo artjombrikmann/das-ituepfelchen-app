@@ -18,7 +18,7 @@ export default function ProfilePage({ session, onLogout }: ProfilePageProps) {
   }, [])
 
   const fetchProfile = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', session.user.id)
