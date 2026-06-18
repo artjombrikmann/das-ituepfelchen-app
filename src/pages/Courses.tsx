@@ -6,26 +6,15 @@ interface CoursesProps {
 }
 
 export default function Courses({ session }: CoursesProps) {
-  const [courses, setCourses] = useState<any[]>([])
   const [bookings, setBookings] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [bookingId, setBookingId] = useState<string | null>(null)
 
   useEffect(() => {
-    loadCourses()
     loadBookings()
-  }, [])
-
-  const loadCourses = async () => {
-    const { data } = await supabase
-      .from('courses')
-      .select('*')
-      .order('date', { ascending: true })
-
-    setCourses(data || [])
     setLoading(false)
-  }
+  }, [])
 
   const loadBookings = async () => {
     const { data } = await supabase
@@ -45,7 +34,6 @@ export default function Courses({ session }: CoursesProps) {
     })
 
     loadBookings()
-    loadCourses()
     setBookingId(null)
   }
 
@@ -57,7 +45,6 @@ export default function Courses({ session }: CoursesProps) {
       .eq('user_id', session.user.id)
 
     loadBookings()
-    loadCourses()
   }
 
   const sampleCourses = [
@@ -120,7 +107,7 @@ export default function Courses({ session }: CoursesProps) {
       <div style={{ maxWidth: '1140px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '22px', fontWeight: '600', color: '#1b1c1b', marginBottom: '12px', margin: '0 0 12px 0' }}>Nähkurse</h2>
+          <h2 style={{ fontSize: '22px', fontWeight: '600', color: '#1b1c1b', margin: '0 0 12px 0' }}>Nähkurse</h2>
           <p style={{ fontSize: '16px', color: '#4c454b', margin: '0', lineHeight: '1.6', maxWidth: '600px' }}>
             Entfalte deine Kreativität in gemütlicher Atmosphäre. Vom ersten Stich bis zum fertigen Kleidungsstück – lerne Nähen bei Katrin.
           </p>
@@ -243,52 +230,43 @@ export default function Courses({ session }: CoursesProps) {
         </div>
 
         {/* Privatstunden Section */}
-        <div style={{ background: '#fad8f8', borderRadius: '16px', padding: '24px', border: '1px solid #a689a6', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', alignItems: 'center' }}>
-          <div>
-            <h3 style={{ fontSize: '22px', fontWeight: '600', color: '#28142b', margin: '0 0 12px 0' }}>Ganz persönlich: Privatstunden</h3>
-            <p style={{ fontSize: '14px', color: '#573f58', margin: '0 0 16px 0', lineHeight: '1.6' }}>
-              Du hast ein spezifisches Projekt im Kopf oder möchtest in deinem eigenen Tempo lernen? Katrin nimmt sich exklusiv Zeit für dich.
-            </p>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <button
-                style={{
-                  padding: '10px 20px',
-                  background: '#705671',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: '600',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase'
-                }}
-              >
-                Termin anfragen
-              </button>
-              <button
-                onClick={() => window.open('https://wa.me/yournumber', '_blank')}
-                style={{
-                  padding: '10px 20px',
-                  background: '#25D366',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '10px',
-                  fontWeight: '600',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase'
-                }}
-              >
-                💬 Via WhatsApp
-              </button>
-            </div>
-          </div>
-          <div style={{ height: '250px', borderRadius: '12px', overflow: 'hidden', display: 'none', media: '(min-width: 768px)' }}>
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPmNUIFukFcy5BCMDQFoNKchHhQY4QgvwYHtOE85-frqnMPl7Sb3dpwCWoLJS-jTQ0s3D1dbn1m3jg67sfJF0nWTQs2VErSdJeCeW618XsAeJQIXo8S80xbpLWHZsyZznd_ukWJSgezWPj09E85RT9CVdbVEy2X-_UT8JVCan68omBsAC3RIVl3Z1VWn4N5o-tKFp2r7jySXp2zFGn9FOvMaQZeDcCjsRE6eODqxJS730cFq-dFx4uwdgfABbGCEwyif6gM5Aws3M"
-              alt="Privatstunden"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+        <div style={{ background: '#fad8f8', borderRadius: '16px', padding: '24px', border: '1px solid #a689a6' }}>
+          <h3 style={{ fontSize: '22px', fontWeight: '600', color: '#28142b', margin: '0 0 12px 0' }}>Ganz persönlich: Privatstunden</h3>
+          <p style={{ fontSize: '14px', color: '#573f58', margin: '0 0 16px 0', lineHeight: '1.6' }}>
+            Du hast ein spezifisches Projekt im Kopf oder möchtest in deinem eigenen Tempo lernen? Katrin nimmt sich exklusiv Zeit für dich.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button
+              style={{
+                padding: '10px 20px',
+                background: '#705671',
+                color: 'white',
+                border: 'none',
+                borderRadius: '10px',
+                fontWeight: '600',
+                fontSize: '12px',
+                cursor: 'pointer',
+                textTransform: 'uppercase'
+              }}
+            >
+              Termin anfragen
+            </button>
+            <button
+              onClick={() => window.open('https://wa.me/yournumber', '_blank')}
+              style={{
+                padding: '10px 20px',
+                background: '#25D366',
+                color: 'white',
+                border: 'none',
+                borderRadius: '10px',
+                fontWeight: '600',
+                fontSize: '12px',
+                cursor: 'pointer',
+                textTransform: 'uppercase'
+              }}
+            >
+              💬 Via WhatsApp
+            </button>
           </div>
         </div>
       </div>
